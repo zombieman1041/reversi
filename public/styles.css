@@ -1,0 +1,31 @@
+body.background{
+    background-image: url(assets/images/indexBackground.jpg);
+    width: 100%;
+    height: 100%;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-attachment: fixed;
+    background-position: center center;
+    background-color: black;
+}
+.topSplash{
+    margin-top: 5px;
+    /* margin-bottom: 100px; */
+
+    width: 50%;
+    height: 100%;
+}
+.link{
+    margin-top: 25px;
+    font-family: 'Days One', sans-serif;
+
+}
+.title{
+    font-family: 'Jura', sans-serif;
+    color: #EEDB00;
+}
+.aboutText{
+    font-family: 'Jura', sans-serif;
+    color: white;
+
+}
