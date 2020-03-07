@@ -12,33 +12,37 @@
 
     <link href="https://fonts.googleapis.com/css?family=Days+One|Jura&display=swap" rel="stylesheet">
 
+    <script>
+        function submitForm(){
+            var username = $('#username').val();
+            window.location.href = 'lobby.html?username='+username;
+        }
+
+    </script>
+
     <title>Reversi: Galactic Conquest</title>
   </head>
   <body class="background">
     <div class ="container-fluid text-center">
       <div class="row">
         <div class="col">
-            <h2 class="title">Name Page</h2>
+            <h2 class="title">What's Your Name Commander?</h2>
         </div>
-      <!-- </div>
-      <div class="row">
-      <div class="col">
-        <p class="aboutText">
-            Lucas ipsum dolor sit amet jabba palpatine baba skywalker ewok wedge fett k-3po qui-gon yoda. Darth yavin solo grievous lando kenobi luuke jade. Coruscant darth darth r2-d2 secura ewok skywalker gonk tatooine. Organa tatooine dagobah darth. Qui-gonn darth kenobi darth darth yoda. Chewbacca skywalker dooku darth amidala ponda darth solo. Ahsoka owen antilles naboo. Darth endor skywalker sidious kamino ben. Jabba vader coruscant kit. Antilles organa qui-gonn watto. Boba darth solo calrissian anakin.
-        </p>
-
+      
       </div>
-      </div>
-
       <div class="row">
-        <div class="col">
-          <a href="index.html" class="btn btn-lg btn-dark">Home</a>
-        
-        </div>
-        <div class="col">
-          <a href="https://en.wikipedia.org/wiki/Reversi" class="btn btn-lg btn-dark">Rules</a>
-        
-        </div> -->
+          <div class="col">
+              <form onsubmit="submitForm(); return false;" class="form-inline">
+                  <div class="form-group">
+                      <label for="username" class="col-form-label sr-only">
+                          Enter your user name
+                      </label>
+                      <input class = "form-control" type="text" value="" id="username" placeholder="Enter your user name"> 
+                    
+                  </div>
+                  <button type="submit" class="btn btn-default btn-primary">Done</button> 
+              </form>
+          </div>
       </div>
     </div>
     
