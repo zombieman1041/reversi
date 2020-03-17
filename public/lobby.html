@@ -32,6 +32,22 @@
             </div>
           </div>
       </div>
+
+      <div class="row">
+        <div class="col">
+          <form onsubmit="send_message(); return false;">
+            <div class="form-group">
+              <label for="send_message_holder" class="col-form-label sr-only">
+                Enter your chat message
+              </label>
+              <input class="form-control" type="text" value="" id="send_message_holder" placeholder="Enter your chat message" />
+            </div>
+            <button type="submit" class="btn btn-default btn-primary">
+              Send
+            </button>
+          </form>
+        </div>
+    </div>
     </div>
     
 
@@ -41,6 +57,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
     
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.3.0/socket.io.js"></script>
     <script src="js/main.js"></script>
 
     </body>
