@@ -160,7 +160,7 @@ socket.on('invited',function(payload){
         alert(payload.message);
         return;
     }
-    var newNode = makePlayButton();
+    var newNode = makePlayButton(payload.socket_id);
     $('.socket_'+payload.socket_id+' button').replaceWith(newNode);
 
 }); 
