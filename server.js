@@ -155,6 +155,11 @@ io.sockets.on('connection', function (socket){
 
         log('join_room success');
 
+        if(room !== 'lobby'){
+            send_game_update(socket,room,'initial update');
+
+        }
+
     });
 
     socket.on('disconnect',function(socket){
@@ -540,3 +545,68 @@ io.sockets.on('connection', function (socket){
 
 });
 
+// code related to the game state
+var games = [];
+
+function create_new_game(){
+    var new_game = {};
+    new_game.player_white = {};
+    new_game.player_black = {};
+    new_game.player_white.socket = '';
+    new_game.player_black.socket = '';
+    new_game.player_white.username = '';
+    new_game.player_black.username = '';
+
+    var d = new Date();
+    new_game.last_move_time = d.getTime();
+
+    new_game.whose_turn = 'white';
+
+    new_game.board = [
+        [
+            ' ',' ',' ',' ',' ',' ',' ',' '
+        ],
+        [
+            ' ',' ',' ',' ',' ',' ',' ',' '
+        ],
+        [
+            ' ',' ',' ',' ',' ',' ',' ',' '
+        ],
+        [
+            ' ',' ',' ','w','b',' ',' ',' '
+        ],
+        [
+            ' ',' ',' ','b','w',' ',' ',' '
+        ],
+        [
+            ' ',' ',' ',' ',' ',' ',' ',' '
+        ],
+        [
+            ' ',' ',' ',' ',' ',' ',' ',' '
+        ]
+    ];
+
+    return new_game;
+
+}
+
+function send_game_update(socket, game_id, message){
+    // check to see if the game with game_id already exists
+    if(('undefined' === typeof games[game_id]) || !games[game_id]){
+        // no game exists so make one
+        console.log("no game exists. Creating "+game_id+" for "+socket.id);
+        games[game_id] = create_new_game();
+    }
+    // make sure only two people are in the game room
+    // assign this socket a color
+    // send a game update
+    var success_data = {
+        result: 'success',
+        game: games[game_id],
+        message: message,
+        game_id: game_id
+    };
+
+    io.in(game_id).emit('game_update',success_data);
+    // check to see if the game is over
+}
