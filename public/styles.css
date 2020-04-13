@@ -52,6 +52,11 @@ table#game_board td{
     margin: 0px;
 }
 #board{
-    background-image: url(assets/images/gameBackground.jpg.jpg);
+    background-image: url(assets/images/gameBackground.jpg);
 
+}
+
+td.hovered_over:hover {
+    background: url(assets/images/hover.gif);
+    background-size: 100% 100%;
 }
