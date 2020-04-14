@@ -60,7 +60,7 @@ socket.on('join_room_response',function(payload){
         nodeB.addClass('col-9 text-right');
         nodeB.append('<h4 class=\"text\">'+payload.username+'</h4>');
 
-        nodeC.addClass('col-3 text-left');
+        nodeC.addClass('cold-3 text-left');
         var buttonC = makeInviteButton(payload.socket_id);
         nodeC.append(buttonC);
 
@@ -76,16 +76,16 @@ socket.on('join_room_response',function(payload){
     }
     else{
         uninvite(payload.socket_id);
-        var buttonC = makeInviteButton();
+        var buttonC = makeInviteButton(payload.socket_id);
         $('.socket_'+payload.socket_id+' button').replaceWith(buttonC);
         dom_elements.slideDown(1000);
     }
 
     // manage the message that a new player has joined
-    var newHTML = '<p class=\"text\">'+payload.username+' just entered the lobby</p>';
+    var newHTML = '<p class=\"text\">'+payload.username+' just entered the room</p>';
     var newNode = $(newHTML);
     newNode.hide();
-    $('#messages').append(newNode);
+    $('#messages').prepend(newNode);
     newNode.slideDown(1000);
 });
 
@@ -109,10 +109,10 @@ socket.on('player_disconnected',function(payload){
     }
     
     // manage the message that a player has left
-    var newHTML = '<p class=\"text\">'+payload.username+' has left the lobby</p>';
+    var newHTML = '<p class=\"text\">'+payload.username+' has left the room</p>';
     var newNode = $(newHTML);
     newNode.hide();
-    $('#messages').append(newNode);
+    $('#messages').prepend(newNode);
     newNode.slideDown(1000);
 });
 
@@ -122,6 +122,8 @@ function send_message(){
     payload.message = $('#send_message_holder').val();
     console.log('*** Client Log Message: \'send_message\' payload: '+JSON.stringify(payload));
     socket.emit('send_message',payload);
+    $('#send_message_holder').val('');
+
 }
 
 socket.on('send_message_response',function(payload){
@@ -132,7 +134,7 @@ socket.on('send_message_response',function(payload){
     var newHTML = '<p class=\"text\"><b>'+payload.username+' says:</b> '+payload.message+'</p>';
     var newNode = $(newHTML);
     newNode.hide();
-    $('#messages').append(newNode);
+    $('#messages').prepend(newNode);
     newNode.slideDown(1000);
 }); 
 // send an invite message to the server 
@@ -292,10 +294,10 @@ socket.on('game_update', function(payload){
     }
     // update my color
     if(socket.id == payload.game.player_white.socket){
-        my_color = 'white';
+        my_color = 'Rebellion';
     }
     else if(socket.id == payload.game.player_black.socket){
-        my_color = 'black';
+        my_color = 'Empire';
     }
     else{
         // if more than two players exist send client back to lobby
@@ -303,7 +305,7 @@ socket.on('game_update', function(payload){
         return;
     }
 
-    $('#my_color').html('<h3 class=\"title\" id="my_color">I am '+my_color+'</h3>');
+    $('#my_color').html('<h3 class=\"title\" id="my_color">I am for the '+my_color+'</h3>');
 
     // Animate changes to the board
     var row,column;

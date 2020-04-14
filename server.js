@@ -25,7 +25,7 @@ var app = http.createServer(function(request,response){
     function(){
         file.serve(request,response);
     }
-    ).resume()
+    ).resume();
 }
 ).listen(port);
 console.log('The server is running');
@@ -484,10 +484,10 @@ io.sockets.on('connection', function (socket){
 
         // Check that the message can be traced to a username
         var username = players[socket.id].username;
-        if('undefined' === typeof username || !username){
+        if(('undefined' === typeof username) || !username){
             var error_message = 'game_start cant identify who sent the message, command aborted';
             log(error_message);
-            socket.emit('game_start_response', {
+            socket.emit('uninvite_response', {
                 result: 'fail',
                 message: error_message
             });
@@ -588,7 +588,7 @@ io.sockets.on('connection', function (socket){
             return;
         }
         // Check that the username had previously registered
-        var username = username[socket.id];
+        var username = players[socket.id].username;
         if(('undefined' === typeof username) || !username){
             var error_message = 'play_token cant identify who sent the message';
             log(error_message);
@@ -632,7 +632,7 @@ io.sockets.on('connection', function (socket){
         }
         // Check that the color had previously registered
         var color = payload.color;
-        if(('undefined' === typeof color) || !color || (color != 'white' && color != 'black')){
+        if('undefined' === typeof color || !color || (color != 'Rebellion' && color != 'Empire')){
             var error_message = 'play token didnt specify a valid color, commmand aborted';
             log(error_message);
             socket.emit('play_token_response', {
@@ -657,13 +657,13 @@ io.sockets.on('connection', function (socket){
         socket.emit('play_token_response', success_data);
 
         // execute the move
-        if(color == 'white'){
+        if(color == 'Rebellion'){
             game.board[row][column] = 'w';
-            game.whose_turn = 'black';
+            game.whose_turn = 'Empire';
         }
-        else if(color == 'black'){
+        else if(color == 'Empire'){
             game.board[row][column] = 'b';
-            game.whose_turn = 'white';
+            game.whose_turn = 'Rebellion';
         }
         var d = new Date();
         game.last_move_time = d.getTime();
@@ -688,7 +688,7 @@ function create_new_game(){
     var d = new Date();
     new_game.last_move_time = d.getTime();
 
-    new_game.whose_turn = 'white';
+    new_game.whose_turn = 'Rebellion';
 
     new_game.board = [
         [
@@ -755,20 +755,22 @@ function send_game_update(socket, game_id, message){
     // if the current player isnt assigned a color 
     if((games[game_id].player_white.socket != socket.id) && (games[game_id].player_black.socket != socket.id)){
         console.log('Player isnt assigned a color: '+socket.id);
-        // and there isnt a color to give them
-        if((games[game_id].player_white.socket != '') && (games[game_id].player_black.socket != '')){
+        // and if there isnt a color to give them
+        if((games[game_id].player_black.socket != '') && (games[game_id].player_white.socket != '')){
             games[game_id].player_white.socket = '';
-            games[game_id].player_black.socket = '';
             games[game_id].player_white.username = '';
+
+            games[game_id].player_black.socket = '';
             games[game_id].player_black.username = '';
 
         }
     }
-
+    // assign colors to the players if not already done
     if(games[game_id].player_white.socket == ''){
         if(games[game_id].player_black.socket != socket.id){
             games[game_id].player_white.socket = socket.id;
             games[game_id].player_white.username = players[socket.id].username;
+            console.log('white player assigned');
 
         }
     }
@@ -776,6 +778,7 @@ function send_game_update(socket, game_id, message){
         if(games[game_id].player_white.socket != socket.id){
             games[game_id].player_black.socket = socket.id;
             games[game_id].player_black.username = players[socket.id].username;
+            console.log('black player assigned');
 
         }
     }
