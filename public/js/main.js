@@ -115,7 +115,7 @@ socket.on('player_disconnected',function(payload){
     $('#messages').prepend(newNode);
     newNode.slideDown(1000);
 });
-
+//TODO: when in game.html send message command is sent but no reply from server side
 function send_message(){
     var payload = {};
     payload.room = chat_room;
