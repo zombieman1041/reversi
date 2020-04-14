@@ -303,14 +303,14 @@ socket.on('game_update', function(payload){
         return;
     }
 
-    $('#my_color').html('<h3 id="my_color">I am '+my_color+'</h3>');
+    $('#my_color').html('<h3 class=\"title\" id="my_color">I am '+my_color+'</h3>');
 
     // Animate changes to the board
-    var row, column;
+    var row,column;
     for (row = 0; row < 8; row++){
         for(column = 0; column < 8; column++){
             // if the board has changed
-            if(old_board[row][column] != board [row][column]){
+            if(old_board[row][column] != board[row][column]){
                 if(old_board[row][column] == '?' && board[row][column] == ' '){
                     $('#'+row+'_'+column).html('<img src="assets/images/empty.gif" alt="empty square"/>');
                 }
