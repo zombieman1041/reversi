@@ -611,7 +611,7 @@ io.sockets.on('connection', function (socket){
         }
         // Check that the row and column had previously registered
         var row = payload.row;
-        if(('undefined' === typeof row) || row < 0 || row > 7){
+        if('undefined' === typeof row || row < 0 || row > 7){
             var error_message = 'play token didnt specify a valid row, commmand aborted';
             log(error_message);
             socket.emit('play_token_response', {
@@ -621,7 +621,7 @@ io.sockets.on('connection', function (socket){
             return;
         }
         var column = payload.column;
-        if(('undefined' === typeof column) || column < 0 || column > 7){
+        if('undefined' === typeof column || column < 0 || column > 7){
             var error_message = 'play token didnt specify a valid column, commmand aborted';
             log(error_message);
             socket.emit('play_token_response', {
@@ -642,7 +642,7 @@ io.sockets.on('connection', function (socket){
             return;
         }
         var game = games[game_id];
-        if(('undefined' === typeof game) || !game){
+        if('undefined' === typeof game || !game){
             var error_message = 'play token couldnt find your game board';
             log(error_message);
             socket.emit('play_token_response', {
@@ -668,7 +668,7 @@ io.sockets.on('connection', function (socket){
         var d = new Date();
         game.last_move_time = d.getTime();
 
-        send_game_update(socket,game_id,'played a token');
+        send_game_update(socket, game_id, 'played a token');
     });
 
 });
@@ -681,8 +681,8 @@ function create_new_game(){
     new_game.player_white = {};
     new_game.player_black = {};
     new_game.player_white.socket = '';
-    new_game.player_black.socket = '';
     new_game.player_white.username = '';
+    new_game.player_black.socket = '';
     new_game.player_black.username = '';
 
     var d = new Date();
@@ -782,6 +782,8 @@ function send_game_update(socket, game_id, message){
 
         }
     }
+
+
     // send a game update
     var success_data = {
         result: 'success',
