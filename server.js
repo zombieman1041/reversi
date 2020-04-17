@@ -711,6 +711,9 @@ function create_new_game(){
         ],
         [
             ' ',' ',' ',' ',' ',' ',' ',' '
+        ],
+        [
+            ' ',' ',' ',' ',' ',' ',' ',' '
         ]
     ];
 
@@ -734,14 +737,14 @@ function send_game_update(socket, game_id, message){
         if(numClients > 2){
             console.log('too many clients in the room: '+game_id+' #: '+numClients);
             if(games[game_id].player_white.socket == roomObject.sockets[0]){
-                games[game_id].player_white.socket == '';
-                games[game_id].player_white.username == '';
+                games[game_id].player_white.socket = '';
+                games[game_id].player_white.username = '';
 
             }
             if(games[game_id].player_black.socket == roomObject.sockets[0]){
-                games[game_id].player_black.socket == '';
-                games[game_id].player_black.username == '';
-
+                games[game_id].player_black.socket = '';
+                games[game_id].player_black.username = '';
+                console.log('black player is being kicked off?');
             }
             // kick one of the extra players out
             var sacrifice = Object.keys(roomObject.sockets)[0];
@@ -756,10 +759,9 @@ function send_game_update(socket, game_id, message){
     if((games[game_id].player_white.socket != socket.id) && (games[game_id].player_black.socket != socket.id)){
         console.log('Player isnt assigned a color: '+socket.id);
         // and if there isnt a color to give them
-        if((games[game_id].player_black.socket != '') && (games[game_id].player_white.socket != '')){
+        if((games[game_id].player_black.socket != '')&& (games[game_id].player_white.socket != '')){
             games[game_id].player_white.socket = '';
             games[game_id].player_white.username = '';
-
             games[game_id].player_black.socket = '';
             games[game_id].player_black.username = '';
 
@@ -783,15 +785,12 @@ function send_game_update(socket, game_id, message){
         }
     }
 
-
-    // send a game update
+    // Send game update
     var success_data = {
         result: 'success',
         game: games[game_id],
         message: message,
         game_id: game_id
     };
-
     io.in(game_id).emit('game_update',success_data);
-    // check to see if the game is over
 }

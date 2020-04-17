@@ -309,7 +309,7 @@ socket.on('game_update', function(payload){
     $('#my_color').html('<h3 class=\"title\" id="my_color">I am for the '+my_color+'</h3>');
 
     // Animate changes to the board
-    var row,column;
+    var row, column;
     for(row = 0; row < 8; row++){
         for(column = 0; column < 8; column++){
             // if the board has changed
