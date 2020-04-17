@@ -598,7 +598,7 @@ io.sockets.on('connection', function (socket){
             });
             return;
         }
-        // Check that the game id had previously registered
+        // Check that the game id has a room
         var game_id = players[socket.id].room;
         if(('undefined' === typeof game_id) || !game_id){
             var error_message = 'player token cant find your game board';
@@ -609,7 +609,7 @@ io.sockets.on('connection', function (socket){
             });
             return;
         }
-        // Check that the row and column had previously registered
+        // Check that the row and column present and valid
         var row = payload.row;
         if('undefined' === typeof row || row < 0 || row > 7){
             var error_message = 'play token didnt specify a valid row, commmand aborted';
@@ -630,7 +630,7 @@ io.sockets.on('connection', function (socket){
             });
             return;
         }
-        // Check that the color had previously registered
+        // Check that the player color is present and valid
         var color = payload.color;
         if('undefined' === typeof color || !color || (color != 'Rebellion' && color != 'Empire')){
             var error_message = 'play token didnt specify a valid color, commmand aborted';
@@ -641,6 +641,7 @@ io.sockets.on('connection', function (socket){
             });
             return;
         }
+        // Get the game state
         var game = games[game_id];
         if('undefined' === typeof game || !game){
             var error_message = 'play token couldnt find your game board';
@@ -651,6 +652,32 @@ io.sockets.on('connection', function (socket){
             });
             return;
         }
+
+        //if the current attempt at playing a token is out of turn then error
+        if(color !== game.whose_turn){
+            var error_message = 'play_token message played out of turn';
+            log(error_message);
+            socket.emit('play_token_response', {
+                result: 'fail',
+                message: error_message
+            });
+            return;
+        }
+        //if the wrong socket is playing the color
+        if(
+            ((game.whose_turn === 'Rebellion') && (game.player_white.socket != socket.id)) ||
+            ((game.whose_turn === 'Empire') && (game.player_black.socket != socket.id))
+        ){
+            var error_message = 'play_token turn played by wrong player';
+            log(error_message);
+            socket.emit('play_token_response', {
+                result: 'fail',
+                message: error_message
+            });
+            return;
+        }
+
+        //send a response 
         var success_data = {
             result: 'success'
         };
@@ -688,7 +715,7 @@ function create_new_game(){
     var d = new Date();
     new_game.last_move_time = d.getTime();
 
-    new_game.whose_turn = 'Rebellion';
+    new_game.whose_turn = 'Empire';
 
     new_game.board = [
         [

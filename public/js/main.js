@@ -295,9 +295,11 @@ socket.on('game_update', function(payload){
         return;
     }
     // update my color
+    //if white player's socket id equals the client's id than they are on the rebellion side 
     if(socket.id == payload.game.player_white.socket){
         my_color = 'Rebellion';
     }
+    //if black player's socket id equals the client's id than they are on the empire side 
     else if(socket.id == payload.game.player_black.socket){
         my_color = 'Empire';
     }
@@ -307,7 +309,9 @@ socket.on('game_update', function(payload){
         return;
     }
 
+    //indicates whos team the client is on
     $('#my_color').html('<h3 class=\"title\" id="my_color">I am for the '+my_color+'</h3>');
+    $('#my_color').append('<h4 class=\"title\">It is the '+payload.game.whose_turn+'\'s turn</h4>');
 
     // Animate changes to the board
 
