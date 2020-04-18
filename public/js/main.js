@@ -298,10 +298,13 @@ socket.on('game_update', function(payload){
     //if white player's socket id equals the client's id than they are on the rebellion side 
     if(socket.id == payload.game.player_white.socket){
         my_color = 'Rebellion';
+        my_color_move = 'w';
     }
     //if black player's socket id equals the client's id than they are on the empire side 
     else if(socket.id == payload.game.player_black.socket){
         my_color = 'Empire';
+        my_color_move = 'b';
+
     }
     else{
         // if more than two players exist send client back to lobby
@@ -370,7 +373,7 @@ socket.on('game_update', function(payload){
                     console.log(my_color.substr(0,1));
                     console.log(payload.game.legal_moves[2][3]);
 
-                    if(payload.game.legal_moves[row][column] === my_color.substr(0,1)){
+                    if(payload.game.legal_moves[row][column] === my_color_move){
 
                         console.log('payload.game.legal_moves[row][column] === my_color.substr(0,1)');
 
