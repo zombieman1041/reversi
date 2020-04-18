@@ -365,11 +365,10 @@ socket.on('game_update', function(payload){
                 // set up interactivity 
                 $('#'+row+'_'+column).off('click');
                 $('#'+row+'_'+column).removeClass('hovered_over');
-                console.log('Removed click and hover over interactivity');
                 if(payload.game.whose_turn === my_color){
 
                     console.log(my_color.substr(0,1));
-                    console.log(payload.game.legal_moves[row][column]);
+                    console.log(payload.game.legal_moves[2][3]);
 
                     if(payload.game.legal_moves[row][column] === my_color.substr(0,1)){
 
