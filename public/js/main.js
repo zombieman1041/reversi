@@ -365,9 +365,16 @@ socket.on('game_update', function(payload){
                 // set up interactivity 
                 $('#'+row+'_'+column).off('click');
                 $('#'+row+'_'+column).removeClass('hovered_over');
-                
+                console.log('Removed click and hover over interactivity');
                 if(payload.game.whose_turn === my_color){
+
+                    console.log(my_color.substr(0,1));
+                    console.log(payload.game.legal_moves[row][column]);
+
                     if(payload.game.legal_moves[row][column] === my_color.substr(0,1)){
+
+                        console.log('payload.game.legal_moves[row][column] === my_color.substr(0,1)');
+
                         $('#'+row+'_'+column).addClass('hovered_over');
                         $('#'+row+'_'+column).click(function(r,c){
                             return function(){
@@ -379,6 +386,7 @@ socket.on('game_update', function(payload){
                                 socket.emit('play_token',payload);
                         };
                     }(row,column));
+                    console.log('Added click and hover interactivity');
                 }
 
             }
