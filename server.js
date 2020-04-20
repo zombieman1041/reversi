@@ -978,19 +978,37 @@ function send_game_update(socket, game_id, message){
 
     var row, column;
     var count = 0;
+    var black = 0;
+    var white = 0;
     for(row = 0; row < 8; row++){
         for(column = 0; column < 8; column++){
-            if(games[game_id].board[row][column] != ' '){
+            // checks how many legal moves are left
+            if(games[game_id].legal_moves[row][column] != ' '){
                 count++;
+            }
+            // checks how many tokens does black have
+            if(games[game_id].board[row][column] === 'b'){
+                black++;
+            }
+            // checks how many tokens does white have
+            if(games[game_id].board[row][column] === 'w'){
+                white++;
             }
         }
     }
-    if(count == 64){
+    if(count == 0){
         // send a game over message
+        var winner = 'tie game';
+        if(black > white){
+            winner = 'The Empire';
+        }
+        if(white > black){
+            winner = 'The Rebellion'
+        }
         var success_data = {
             result: 'success',
             game: games[game_id],
-            who_won: 'everyone',
+            who_won: winner,
             game_id: game_id
         };
         io.in(game_id).emit('game_over', success_data);

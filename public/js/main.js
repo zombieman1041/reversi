@@ -276,6 +276,7 @@ var old_board = [
 ];
 
 var my_color = ' ';
+var interval_timer;
 
 socket.on('game_update', function(payload){
     console.log('*** Client Log Message: \'game_update\'\n\tpayload: '+JSON.stringify(payload));
@@ -314,7 +315,27 @@ socket.on('game_update', function(payload){
 
     //indicates whos team the client is on
     $('#my_color').html('<h3 class=\"title\" id="my_color">I am for the '+my_color+'</h3>');
-    $('#my_color').append('<h4 class=\"title\">It is the '+payload.game.whose_turn+'\'s turn</h4>');
+    $('#my_color').append('<h4 class=\"title\">It is the '+payload.game.whose_turn+'\'s turn. Elapsed time <span id = "elapsed"></span></h4>');
+
+    clearInterval(interval_timer);
+    interval_timer = setInterval(function(last_time){
+        return function(){
+            // updates the UI for elapsed time of players turn
+            var d = new Date();
+            var elapsedmilli = d.getTime() - last_time;
+            var minutes = Math.floor(elapsedmilli / (60 * 1000));
+            var seconds = Math.floor((elapsedmilli % (60 * 1000))/1000);
+
+            if(seconds < 10){
+                $('#elapsed').html(minutes+':0'+seconds);
+            }
+            else{
+                $('#elapsed').html(minutes+':'+seconds);
+            }
+
+        }
+    }(payload.game.last_move_time)
+    , 1000);
 
     // Animate changes to the board
 
@@ -382,7 +403,6 @@ socket.on('game_update', function(payload){
                                 socket.emit('play_token',payload);
                         };
                     }(row,column));
-                    console.log('Added click and hover interactivity');
                 }
 
             }
