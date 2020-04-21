@@ -78,3 +78,17 @@ td.hovered_over:hover {
 .gameOver{
     margin-bottom: 10px;
 }
+.settings{
+    display: none;
+}
+.gear{
+    /* width: 100%;
+    height: 100%; */
+
+    max-width: 10%;
+    max-height: 10%;
+    float: left;
+}
+.quitButton{
+    margin-top: 10px;
+}

@@ -32,6 +32,18 @@ socket.on('log', function(array){
 }); 
 
 
+var elem = document.documentElement;
+function openFullscreen() {
+  if (elem.webkitRequestFullscreen) { /* Chrome, Safari & Opera */
+    elem.webkitRequestFullscreen();
+  } else if (elem.mozRequestFullScreen) { /* Firefox */
+    elem.mozRequestFullScreen();
+  } else if (elem.msRequestFullscreen) { /* IE/Edge */
+    elem.msRequestFullscreen();
+  }
+}
+
+  
 // what to do when the server responds that someone joined the room
 socket.on('join_room_response',function(payload){
     if(payload.result == 'fail'){
@@ -260,7 +272,7 @@ $(function(){
     payload.username = username;
     console.log('*** Client Log Message: \'join_room\' payload: '+JSON.stringify(payload));
     socket.emit('join_room', payload);
-    $('#quit').append('<a href="lobby.html?username='+username+'" class="btn btn-danger btn-default active" role="button" aria-pressed="true">Quit</a>');
+    $('#quit').append('<a href="lobby.html?username='+username+'" class="btn btn-danger btn-default active quitButton" role="button" aria-pressed="true">Quit</a>');
 
 });
 
