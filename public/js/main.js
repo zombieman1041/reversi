@@ -436,6 +436,6 @@ socket.on('game_over', function(payload) {
     }
     //jump to new page 
     $('#game_over').html('<h1 class=\"title\">Game Over</h1><h2 class=\"title\">'+payload.who_won+' won!</h2>');
-    $('#game_over').append('<a href="lobby.html?username='+username+'" class="btn btn-success btn-lg active" role="button" aria-pressed="true">Return to the lobby</a>');
+    $('#game_over').append('<a href="lobby.html?username='+username+'" class="btn btn-success btn-lg active gameOver" role="button" aria-pressed="true">Return to the lobby</a>');
 
 });

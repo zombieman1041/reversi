@@ -7,6 +7,8 @@ body.background{
     background-attachment: fixed;
     background-position: center center;
     background-color: black;
+    /* position: relative;
+    z-index: 1; */
 }
 .topSplash{
     margin-top: 40px;
@@ -36,6 +38,8 @@ body.background{
 }
 
 table#game_board{
+    background: url(assets/images/gameBackground.jpg);
+
     margin: auto;
     border-style: solid;
     border-width: 10px;
@@ -51,12 +55,26 @@ table#game_board td{
 #messages p{
     margin: 0px;
 }
-#board{
-    background-image: url(assets/images/gameBackground.jpg);
 
+.sumText_Empire{
+    font-family: 'Jura', sans-serif;
+    color: white;
+    font-size: 24pt;
+    display: inline-block;
+    margin-left: 10px;
 }
-
+.sumText_Rebellion{
+    font-family: 'Jura', sans-serif;
+    color: white;
+    font-size: 24pt;
+    display: inline-block;
+    margin-right: 10px;
+}
 td.hovered_over:hover {
     background: url(assets/images/hover.gif);
     background-size: 100% 100%;
+}
+
+.gameOver{
+    margin-bottom: 10px;
 }
