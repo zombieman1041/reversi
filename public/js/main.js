@@ -327,7 +327,7 @@ socket.on('game_update', function(payload){
 
     //indicates whos team the client is on
     $('#my_color').html('<h3 class=\"title\" id="my_color">I am for the '+my_color+'</h3>');
-    $('#my_color').append('<h4 class=\"title\">It is the '+payload.game.whose_turn+'\'s turn. Elapsed time <span id = "elapsed"></span></h4>');
+    $('#my_color').append('<h4 id =\"time\" class=\"title\">It is the '+payload.game.whose_turn+'\'s turn. Elapsed time <span id = "elapsed"></span></h4>');
 
     clearInterval(interval_timer);
     interval_timer = setInterval(function(last_time){
@@ -447,7 +447,27 @@ socket.on('game_over', function(payload) {
         return;
     }
     //jump to new page 
+    gameoverScreen(payload);
+
+});
+function gameoverScreen(payload){
+    var nodeBoard = document.getElementById("game_board");
+    var nodeturn = document.getElementById("time");
+
+    nodeBoard.style.display = "none";
+    nodeturn.style.display = "none";
+
+    if(payload.who_won === "The Empire"){
+        document.body.style.background = "url(assets/images/empireVictory.jpg)";
+
+    }
+    else if(payload.who_won === "The Rebellion"){
+        document.body.style.background = "url(assets/images/rebelVictory.jpg)";
+
+    }
+
+
     $('#game_over').html('<h1 class=\"title\">Game Over</h1><h2 class=\"title\">'+payload.who_won+' won!</h2>');
     $('#game_over').append('<a href="lobby.html?username='+username+'" class="btn btn-success btn-lg active gameOver" role="button" aria-pressed="true">Return to the lobby</a>');
 
-});
+}
